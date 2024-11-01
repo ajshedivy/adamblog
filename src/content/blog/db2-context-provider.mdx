@@ -1,0 +1,102 @@
+---
+title: '🚀 Db2 for i Context Provider for Continue 💡'
+description: 'Write SQL code faster and more efficiently with the new Db2 for i Context Provider Plugin for Continue!'
+pubDate: 'Nov 01 2024'
+heroImage: '../../assets/images/db2-context-provider.png'
+category: 'AI'
+tags: ['SQL', 'AI', 'Code Assistants']
+---
+
+In this blog, I’ll walk you through how to leverage the open-source code assistant Continue to simplify writing and understanding SQL. We’ll start with a quick overview of what Continue is and how it works. From there, I’ll introduce the "Db2 for i Context Provider," a plugin designed to seamlessly supply large language models (LLMs) with relevant database context.
+
+The @Db2i context provider is built on the Db2 for i VSCode extension, using the active IBM i connection and internal database tools to integrate directly into the Continue Chat interface. This setup allows for a smooth, interactive experience when working with SQL on Db2 for i inside VSCode.
+
+VSCode for i extension docs:
+
+- Code for i: https://codefori.github.io/docs/
+- Db2 for i: https://codefori.github.io/docs/extensions/db2i/
+
+## Quick Intro to Continue
+
+Continue is an open-source code assistant that integrates directly with IDEs like VSCode and JetBrains. It assists developers by providing features such as code autocompletion and a chat-like interface for interacting with the active workspace. Continue supports multiple LLM Providers and models, making it customizable for specific use cases and developer workflows.
+
+To get started, follow these instructions to install Continue👨‍💻: https://docs.continue.dev/getting-started/install
+
+Once Continue is installed, you can select a model that you want to use. here are some great resources to connect the IBM Granite 3.0 models in Continue:
+
+- [Build a local AI co-pilot using IBM Granite Code, Ollama, and Continue](https://allthingsopen.org/articles/build-a-local-ai-co-pilot)
+- [Connect Granite 3.0 running on Power to VSCode](#1)
+
+📝More on Continue Documentation: https://www.continue.dev/
+
+## Db2 for i Context Provider
+
+![image](https://github.com/user-attachments/assets/835e8842-5e52-4f9b-913b-f329473932c6)
+
+The Db2 for i Context Provider is a Plugin for Continue that provides the LLM with relevant Database information. This can aid developers in writing and understanding SQL specific to their IBM i system.
+
+**Here is quick example of the Context Provider in action!**
+![image](https://github.com/user-attachments/assets/1204ddff-407c-43f5-9cdc-a0d8503584c8)
+
+In this screenshot, we prompt the model to summarize the columns in the `sample.employee` table. The `@Db2i` Plugin steps in to automatically retrieve relevant metadata about the `sample.employee` table, including column names, data types, and any additional information that enhances understanding. This context is then provided to the model, allowing it to generate an accurate summary of the table structure.
+
+### How does this work: Prompt Enrichment
+
+![image](https://github.com/user-attachments/assets/71ef6f64-12c2-4db9-92b0-a25776042e70)
+
+The algorithm behind the `@Db2i` context provider is straightforward but effective. Here’s a step-by-step breakdown:
+
+---
+
+#### Step 1: Tokenize User Input
+
+Given a prompt like:
+
+```
+tell me about the columns in sample.employee
+```
+
+- First, we split the user input into individual words, or "tokens."
+- **Note:** We use spaces to tokenize the input, so each token is a single word.
+
+#### Step 2: Identify Valid Database References
+
+- For each token, we check if it corresponds to a valid table or object reference within the active SQL Job.
+- In this example, `sample.employee` is recognized as a valid table reference.
+
+#### Step 3: Retrieve Metadata for Valid References
+
+- When valid references are found, we fetch associated metadata, such as column names, data types, and descriptions.
+- This retrieval is done through the `SQL Job Manager` in the Db2 for i VSCode extension, which queries relevant database information based on the user’s active connection.
+
+#### Step 4: Add Metadata to Prompt Context
+
+- Finally, we insert the fetched column metadata into the prompt context using the Continue API
+
+![Metadata Integration](https://github.com/user-attachments/assets/f62d360e-215b-4a36-8681-6a8fc9a5d010)
+
+---
+
+## Enhancing SQL Generation
+
+By enriching our prompt context with database-specific metadata, we unlock the power of prompt engineering to streamline SQL writing!
+
+![Prompt Engineering in Action](https://github.com/user-attachments/assets/a1bd3a01-7f92-4dc2-8f5b-ea8dc9e2689d)
+
+### Here’s a breakdown of the process:
+
+1. **Activate the `@Db2i` Context Provider**
+   - Start by typing the "@" symbol in the chat text box to invoke the `@Db2i` context provider.
+2. **Enter Your Query**
+   - Use a prompt like:
+     ```
+     How can I combine the data in sample.employee and sample.department?
+     ```
+3. **SQL Generation with Contextual Insights**
+   - With the relevant column metadata from `employee` and `department` tables, the model generates an accurate SQL `JOIN` statement.
+4. **Execute and View Results Instantly**
+   - Copy the generated SQL into the active SQL editor, run the query, and instantly view the result set right inside VSCode! 🔥
+
+By integrating database context directly into our prompts, we make SQL generation not only faster but more accurate and insightful.
+
+Original Article: [Db2 for i Context Provider for Continue](https://github.com/ajshedivy/blog/issues/2)
