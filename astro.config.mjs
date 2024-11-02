@@ -6,7 +6,8 @@ import { remarkReadingTime } from './src/utils/readTime.ts'
 
 // https://astro.build/config
 export default defineConfig({
-	site: `https://ajshedivy.github.io/adamblog`, // Write here your website url
+	site: `https://ajshedivy.github.io`, // Write here your website url
+	base: `/adamblog`,
 	markdown: {
 		remarkPlugins: [remarkReadingTime],
 		drafts: true,
