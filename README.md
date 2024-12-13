@@ -156,7 +156,7 @@ export  const  CATEGORIES  =  [
 
 Adding a post is as simple as adding a .md or .mdx file to the blog folder at the path **src/content/blog**. The filename will be used to create the slug/URL of the page.
 
-For example, if you have a file named **jsx-and-react.md**, it will be transformed into: **http://yourdomain.com/post/jsx-and-react/**
+For example, if you have a file named **jsx-and-react.md**, it will be transformed into: **http://yourdomain.com/adamblog/post/jsx-and-react/**
 
 ## 📝 Activating draft mode
 
